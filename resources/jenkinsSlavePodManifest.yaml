@@ -12,16 +12,9 @@ spec:
     command:
     - cat
     tty: true
-#    resources:
-#      requests:
-#        memory: "64Mi"
-#        cpu: "250m"
-#      limits:
-#        memory: "128Mi"
-#        cpu: "500m"        
     env:
     - name: CONTAINER_ENV_VAR
-      value: jdk-gradle-docker-k8s-helm  
+      value: jdk-gradle-docker-k8s-helm
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run/docker.sock
