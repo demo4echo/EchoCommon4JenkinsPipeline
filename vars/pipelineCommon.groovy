@@ -114,11 +114,11 @@ def assimilateParameters() {
 		println "Within assimilateParameters() => Jenkins node name is: [${env.NODE_NAME}]"
 
 		// Overwrite the reckon scope and stage designated values if applicable values were passed as parameters
-		if (params.TARGET_RECKON_SCOPE != TARGET_RECKON_SCOPE_DEFAULT_VALUE)
+		if (params.TARGET_RECKON_SCOPE != PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE)
 		{
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
-		if (params.TARGET_RECKON_STAGE != TARGET_RECKON_STAGE_DEFAULT_VALUE)
+		if (params.TARGET_RECKON_STAGE != PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE)
 		{
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
