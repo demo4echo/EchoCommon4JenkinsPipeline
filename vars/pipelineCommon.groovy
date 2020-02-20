@@ -34,9 +34,9 @@ CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
 
 def buildMap() {
-	node {
+//	node {
 		return [name:'tiran',age:13]
-	}
+//	}
 }
 
 //
