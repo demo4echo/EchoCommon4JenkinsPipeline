@@ -37,7 +37,7 @@ def buildMap() {
 //	node {
 		println "Inside buildMap()"
 		return 'golan'
-		return [name:'tiran',age:13]
+//		return [name:'tiran',age:13]
 //	}
 }
 
