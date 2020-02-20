@@ -21,11 +21,15 @@ def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 //
-// Internal contants
+// Internal contants (don't use "def" in order to have these variables as global ones)
 //
 
-def CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
-def CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
+CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
+CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
+
+def test() {
+	return "TESTING"
+}
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the branch name
