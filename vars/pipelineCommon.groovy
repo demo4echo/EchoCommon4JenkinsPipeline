@@ -2,8 +2,14 @@
 // Constants
 //
 
-//@groovy.transform.Field
-def TIRAN='NA'
+@groovy.transform.Field
+def TARGET_JENKINSFILE_FILE_NAME_DEFAULT_VALUE='Jenkinsfile'
+
+@groovy.transform.Field
+def TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
+
+@groovy.transform.Field
+def TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin)
@@ -99,11 +105,11 @@ def assimilateParameters() {
 		println "Within assimilateParameters() => Jenkins node name is: [${env.NODE_NAME}]"
 
 		// Overwrite the reckon scope and stage designated values if applicable values were passed as parameters
-		if (params.TARGET_RECKON_SCOPE != 'NA')
+		if (params.TARGET_RECKON_SCOPE != TARGET_RECKON_SCOPE_DEFAULT_VALUE)
 		{
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
-		if (params.TARGET_RECKON_STAGE != 'NA')
+		if (params.TARGET_RECKON_STAGE != TARGET_RECKON_STAGE_DEFAULT_VALUE)
 		{
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
