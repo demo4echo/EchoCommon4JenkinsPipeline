@@ -21,7 +21,7 @@ def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 //
-// Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin)
+// Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the branch name
 //
 def resolveCloudNameByBranchName() {
 	node {
@@ -41,6 +41,31 @@ def resolveCloudNameByBranchName() {
 			env.CLOUD_NAME = 'development'		    
 		}
 		
+		println "Resolved cloud name is: [${env.CLOUD_NAME}]"
+		
+		// Return the resolved cloud name
+		return env.CLOUD_NAME
+	}
+}
+
+//
+// Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the job name
+//
+def resolveCloudNameByJobName() {
+	node {
+		println "Within resolveCloudNameByJobName() => Jenkins node name is: [${env.NODE_NAME}]"
+
+		// These variables are null here
+		println "Branch name is: [${env.BRANCH_NAME}]"
+		println "GIT branch is: [${env.GIT_BRANCH}]"
+
+		// Work with Job name instead of Git branch name
+		println "Job name is: [${env.JOB_NAME}]"
+		def projectedBranchName = env.JOB_NAME.split(/-/).last()
+		println "Projected branch name is: [" + projectedBranchName + "]"
+
+		// Set the target cloud name
+		env.CLOUD_NAME = projectedBranchName
 		println "Resolved cloud name is: [${env.CLOUD_NAME}]"
 		
 		// Return the resolved cloud name
