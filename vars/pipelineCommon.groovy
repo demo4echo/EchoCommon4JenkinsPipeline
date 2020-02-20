@@ -6,9 +6,6 @@
 //
 
 @groovy.transform.Field
-K8S_AGENT_LABEL='jenkins-slave-pod-agent'
-
-@groovy.transform.Field
 K8S_AGENT_DEFAULT_CONTAINER='jdk-gradle-docker-k8s-helm'
 
 @groovy.transform.Field
@@ -30,10 +27,22 @@ PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 PARAMS_TARGET_RECKON_STAGE_OPTIONS=[PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE,'dev','rc','final']
 
 @groovy.transform.Field
+CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL='jenkins-slave-pod-agent'
+
+@groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
 
 @groovy.transform.Field
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
+
+//
+// Builds a proper Jenkins service pod agent label (name), taking into account the job name
+//
+def constructJenkinsSlavePodAgentLabel() {
+	node {
+		return CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL + "-4-${env.JOB_NAME}"
+	}
+}
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the branch name
