@@ -20,6 +20,9 @@ def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 @groovy.transform.Field
 def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
+@groovy.transform.Field
+def TIRAN=buildMap()
+
 //
 // Internal contants (don't use "def" in order to have these variables as global ones)
 //
@@ -27,8 +30,8 @@ def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
 
-def test() {
-	return "TESTING"
+def buildMap() {
+	return [name:'tiran',age:13]
 }
 
 //
