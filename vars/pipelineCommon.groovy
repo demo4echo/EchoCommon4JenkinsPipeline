@@ -2,7 +2,7 @@
 // Constants
 //
 
-@groovy.transform.Field
+//@groovy.transform.Field
 def TIRAN='NA'
 
 //
