@@ -1,5 +1,8 @@
 //
-// Constants (don't use "def" in order to have these variables as global ones)
+// Exported Constants
+// Notes:
+//		1. Don't use "def" in order to have these variables as global ones
+//		2. All constants/variables must be with the "@groovy.transform.Field" annotation in order to be used within this script (since running inside a pipeline)
 //
 
 @groovy.transform.Field
