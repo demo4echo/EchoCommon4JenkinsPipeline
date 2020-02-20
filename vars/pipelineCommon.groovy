@@ -3,7 +3,11 @@
 //
 
 //@groovy.transform.Field
-//def GITHUB_ACCESS_TOKEN_CREDENTIALS_ID='github-demo4echo-access-token-for-reckon-gradle-plugin-id'
+def GITHUB_ACCESS_TOKEN_CREDENTIALS_ID='github-demo4echo-access-token-for-reckon-gradle-plugin-id'
+
+def tiran() {
+	return GITHUB_ACCESS_TOKEN_CREDENTIALS_ID
+}
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin)
