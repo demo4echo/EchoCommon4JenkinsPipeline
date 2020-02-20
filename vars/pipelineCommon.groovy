@@ -6,7 +6,7 @@
 def GITHUB_ACCESS_TOKEN_CREDENTIALS_ID='github-demo4echo-access-token-for-reckon-gradle-plugin-id'
 
 def tiran() {
-	return GITHUB_ACCESS_TOKEN_CREDENTIALS_ID
+	return 'NA'
 }
 
 //
