@@ -15,7 +15,7 @@ K8S_AGENT_DEFAULT_CONTAINER='jdk-gradle-docker-k8s-helm'
 OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR='25'
 
 @groovy.transform.Field
-PARAMS_TARGET_JENKINSFILE_FILE_NAME_DEFAULT_VALUE='Jenkinsfile'
+PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS=['Jenkinsfile','Jenkinsfile4Release']
 
 @groovy.transform.Field
 PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
@@ -24,22 +24,10 @@ PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
-//TIRAN=[name:'golan',age:13]
-TIRAN=buildMap()
-
-@groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
 
 @groovy.transform.Field
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
-
-def buildMap() {
-//	node {
-		println "Inside buildMap()"
-		return 'golan'
-//		return [name:'tiran',age:13]
-//	}
-}
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the branch name
