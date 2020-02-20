@@ -1,31 +1,27 @@
 //
-// External Constants
+// Constants (don't use "def" in order to have these variables as global ones)
 //
 
 @groovy.transform.Field
-def K8S_AGENT_LABEL='jenkins-slave-pod-agent'
+K8S_AGENT_LABEL='jenkins-slave-pod-agent'
 
 @groovy.transform.Field
-def K8S_AGENT_DEFAULT_CONTAINER='jdk-gradle-docker-k8s-helm'
+K8S_AGENT_DEFAULT_CONTAINER='jdk-gradle-docker-k8s-helm'
 
 @groovy.transform.Field
-def OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR='25'
+OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR='25'
 
 @groovy.transform.Field
-def PARAMS_TARGET_JENKINSFILE_FILE_NAME_DEFAULT_VALUE='Jenkinsfile'
+PARAMS_TARGET_JENKINSFILE_FILE_NAME_DEFAULT_VALUE='Jenkinsfile'
 
 @groovy.transform.Field
-def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
+PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
-def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
+PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
-def TIRAN=[name:'tiran',age:13]
-
-//
-// Internal contants (don't use "def" in order to have these variables as global ones)
-//
+TIRAN=[name:'tiran',age:13]
 
 @groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
