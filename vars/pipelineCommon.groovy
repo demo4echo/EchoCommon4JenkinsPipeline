@@ -24,7 +24,7 @@ PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
-TIRAN=[name:'tiran',age:13]
+TIRAN=[name:'golan',age:13]
 
 @groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
