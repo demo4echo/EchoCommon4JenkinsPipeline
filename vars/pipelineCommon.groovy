@@ -25,7 +25,7 @@ PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
 //TIRAN=[name:'golan',age:13]
-TIRAN=buildMap()
+TIRAN=buildMap1()
 
 @groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
