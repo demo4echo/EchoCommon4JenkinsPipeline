@@ -21,7 +21,7 @@ def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
-def TIRAN=buildMap()
+def TIRAN=[name:'tiran',age:13]
 
 //
 // Internal contants (don't use "def" in order to have these variables as global ones)
