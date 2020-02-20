@@ -36,6 +36,7 @@ CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.ma
 def buildMap() {
 //	node {
 		println "Inside buildMap()"
+		return 'golan'
 		return [name:'tiran',age:13]
 //	}
 }
