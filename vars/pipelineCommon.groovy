@@ -40,7 +40,11 @@ CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.ma
 //
 def constructJenkinsSlavePodAgentLabel() {
 	node {
-		return CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL + "-4-${env.JOB_NAME}"
+		// Job name might contain "/" followed by the branch name, so we need to replace "/" with something acceptable (e.g. "_")
+		def originalJobName = env.JOB_NAME
+		def safeJobName = originalJobName.replace("/","_")
+		
+		return CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL + "-${safeJobName}"
 	}
 }
 
