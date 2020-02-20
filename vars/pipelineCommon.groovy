@@ -27,7 +27,10 @@ def TIRAN=[name:'tiran',age:13]
 // Internal contants (don't use "def" in order to have these variables as global ones)
 //
 
+@groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
+
+@groovy.transform.Field
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
 
 def buildMap() {
