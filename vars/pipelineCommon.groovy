@@ -1,5 +1,5 @@
 //
-// Constants
+// External Constants
 //
 
 @groovy.transform.Field
@@ -19,6 +19,13 @@ def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
 def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
+
+//
+// Internal contants
+//
+
+def CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
+def CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the branch name
@@ -109,7 +116,7 @@ def assimilateEnvironmentVariables() {
 		println "Within assimilateEnvironmentVariables() => Jenkins node name is: [${env.NODE_NAME}]"
 
 		// Load properties from file and turn into environment variables
-		def selfProps = readProperties interpolate: true, file: 'EnvFile.properties'
+		def selfProps = readProperties interpolate: true, file: CONST_ENV_PROPERTIES_FILE_NAME
 		selfProps.each {
 			key,value -> env."${key}" = "${value}" 
 		}
@@ -155,7 +162,7 @@ def assimilateParameters() {
 def locateCommonSubModuleFolderName() {
 	println "Within locateCommonSubModuleFolderName() => Jenkins node name is: [${env.NODE_NAME}]"
 
-	def markupFiles = findFiles(glob: '**/_CommonSubModulePickup.markup')
+	def markupFiles = findFiles(glob: CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN)
 	def commonSubModuleMarkupFileRelativePath = markupFiles[0].path
 	def (commonSubModuleFolderName,commonSubModulePickupFileName) = commonSubModuleMarkupFileRelativePath.tokenize('/')
 	def commonSubModuleName = commonSubModuleFolderName
