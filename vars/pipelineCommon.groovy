@@ -3,13 +3,22 @@
 //
 
 @groovy.transform.Field
-def TARGET_JENKINSFILE_FILE_NAME_DEFAULT_VALUE='Jenkinsfile'
+def K8S_AGENT_LABEL='jenkins-slave-pod-agent'
 
 @groovy.transform.Field
-def TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
+def K8S_AGENT_DEFAULT_CONTAINER='jdk-gradle-docker-k8s-helm'
 
 @groovy.transform.Field
-def TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
+def OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR='25'
+
+@groovy.transform.Field
+def PARAMS_TARGET_JENKINSFILE_FILE_NAME_DEFAULT_VALUE='Jenkinsfile'
+
+@groovy.transform.Field
+def PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
+
+@groovy.transform.Field
+def PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin)
