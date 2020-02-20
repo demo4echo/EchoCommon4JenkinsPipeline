@@ -25,7 +25,7 @@ PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
 //TIRAN=[name:'golan',age:13]
-TIRAN=buildMap1()
+TIRAN=buildMap()
 
 @groovy.transform.Field
 CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
@@ -35,6 +35,7 @@ CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.ma
 
 def buildMap() {
 //	node {
+		println "Inside buildMap()"
 		return [name:'tiran',age:13]
 //	}
 }
