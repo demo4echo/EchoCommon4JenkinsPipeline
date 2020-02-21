@@ -27,6 +27,12 @@ PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 PARAMS_TARGET_RECKON_STAGE_OPTIONS=[PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE,'dev','rc','final']
 
 @groovy.transform.Field
+PARAMS_DESIGNATED_VERSION_DEFAULT_VALUE=''
+
+@groovy.transform.Field
+PARAMS_DESIGNATED_VERSION_REG_EXP=/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/
+
+@groovy.transform.Field
 CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL='jenkins-slave-pod-agent'
 
 @groovy.transform.Field
@@ -43,7 +49,7 @@ def constructJenkinsSlavePodAgentLabel() {
 		// Job name might contain "/" followed by the branch name, so we need to replace "/" with something acceptable (e.g. "_")
 		def originalJobName = env.JOB_NAME
 		def safeJobName = originalJobName.replace("/","_")
-		
+
 		return CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL + "-${safeJobName}"
 	}
 }
