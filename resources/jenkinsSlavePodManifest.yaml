@@ -1,20 +1,21 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: jenkins-slave
+  name: jenkins-slave-pod
   labels:
     slave-agent: jenkins
 spec:
   containers:
-  - name: jdk-gradle-docker-k8s-helm
-    image: demo4echo/alpine_openjdk8_k8scdk
+  - name: jenkins-slave-container
+#    image: demo4echo/alpine_openjdk8_k8scdk
+    image: demo4echo/ubuntu_k8scdk
     imagePullPolicy: Always
     command:
     - cat
     tty: true
     env:
     - name: CONTAINER_ENV_VAR
-      value: jdk-gradle-docker-k8s-helm
+      value: jenkins-slave-container
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run/docker.sock
