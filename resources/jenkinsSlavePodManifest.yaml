@@ -14,8 +14,14 @@ spec:
     - cat
     tty: true
     env:
-    - name: CONTAINER_ENV_VAR
-      value: jenkins-slave-container
+    - name: CONTAINER_NAME_ENV_VAR
+      valueFrom:
+         fieldRef:
+           fieldPath: metadata.name
+    - name: NODE_HOST_NAME_ENV_VAR
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run/docker.sock
