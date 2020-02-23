@@ -6,7 +6,7 @@
 //
 
 @groovy.transform.Field
-K8S_AGENT_DEFAULT_CONTAINER='jdk-gradle-docker-k8s-helm'
+K8S_AGENT_DEFAULT_CONTAINER='jenkins-slave-container'
 
 @groovy.transform.Field
 OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR='25'
