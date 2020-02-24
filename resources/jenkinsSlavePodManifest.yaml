@@ -7,8 +7,8 @@ metadata:
 spec:
   containers:
   - name: jenkins-slave-container
-#    image: demo4echo/alpine_openjdk8_k8scdk
-    image: demo4echo/ubuntu_k8scdk
+    image: demo4echo/alpine_openjdk8_k8scdk
+#    image: demo4echo/ubuntu_k8scdk
     imagePullPolicy: Always
     command:
     - cat
