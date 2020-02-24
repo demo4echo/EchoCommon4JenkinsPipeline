@@ -5,6 +5,8 @@ metadata:
   labels:
     slave-agent: jenkins
 spec:
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
   containers:
   - name: jenkins-slave-container
     image: demo4echo/alpine_openjdk8_k8scdk
@@ -25,17 +27,17 @@ spec:
     volumeMounts:
     - name: docker-socket
       mountPath: /var/run/docker.sock
-#    - name: gradle-cache-vol
-#      mountPath: /root/.gradle
-#    - name: helm-cache-vol
-#      mountPath: /root/.helm
+    - name: gradle-cache-vol
+      mountPath: /root/.gradle
+    - name: helm-cache-vol
+      mountPath: /root/.helm
   volumes:
   - name: docker-socket
     hostPath:
       path: /var/run/docker.sock
-#  - name: gradle-cache-vol
-#    hostPath:
-#      path: /root/.gradle
-#  - name: helm-cache-vol
-#    hostPath:
-#      path: /root/.helm
+  - name: gradle-cache-vol
+    hostPath:
+      path: /root/.gradle
+  - name: helm-cache-vol
+    hostPath:
+      path: /root/.helm
