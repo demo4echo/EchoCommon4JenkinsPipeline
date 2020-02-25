@@ -1,5 +1,5 @@
 //
-// Custom step:	prevents from replayed builds to exexute,
+// Custom step:	Prevents from replayed builds to exexute,
 // 					as otherwise such builds will generate artifacts (like docker images or helm charts)
 //						with old/obsolete/stale code 
 //
