@@ -4,12 +4,15 @@
 //						with old/obsolete/stale code 
 //
 def call(String buildID) {
-	echo "Current Display Name is: [${currentBuild.displayName}]"
-	echo "Current Decription is: [${currentBuild.description}]"
+	def buildDisplayName = currentBuild.displayName
+	def buildDecription = currentBuild.description
+
+	echo "Current Display Name is: [${buildDisplayName}]"
+	echo "Current Decription is: [${buildDecription}]"
 
 	// Check if this is a replay of an old build and if so, stop the build
-	if (currentBuild.description != null) {
-		error "Build [${buildID}] is a replay of build [${currentBuild.displayName}]which is not allowed - build is stopped!"
+	if (buildDecription != null) {
+		error "Build [${buildID}] is a replay of build [${buildDisplayName}] which is not allowed - build is stopped!"
 	}
 	else {
 		echo "Build [${buildID}] is a new build - build is allowed to continue."
