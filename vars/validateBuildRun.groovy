@@ -9,11 +9,12 @@
 def call(String buildID = env.BUILD_ID,boolean allowReplayedBuild = false) {
 	// https://stackoverflow.com/questions/51555910/how-to-know-inside-jenkinsfile-script-that-current-build-is-an-replay/52302879#52302879
 	// https://javadoc.jenkins.io/plugin/workflow-cps/org/jenkinsci/plugins/workflow/cps/replay/ReplayCause.html
-	def replayCause = currentBuild.rawBuild.getCauses().any {
-		cause -> cause instanceof org.jenkinsci.plugins.workflow.cps.replay.ReplayCause
+//	def isReplayCause = currentBuild.rawBuild.getCauses().any {
+//		cause -> cause instanceof org.jenkinsci.plugins.workflow.cps.replay.ReplayCause
+//	}
+	def replayCause = currentBuild.rawBuild.getCauses().find {
+		it instanceof org.jenkinsci.plugins.workflow.cps.replay.ReplayCause
 	}
-
-	echo "The class name of replayCause is: [${replayCause.class.name}]"
 
 	// Check applicable conditions on build run
 	if (allowReplayedBuild == false && replayCause != null) {
