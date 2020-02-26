@@ -13,6 +13,8 @@ def call(String buildID = env.BUILD_ID,boolean allowReplayedBuild = false) {
 		cause -> cause instanceof org.jenkinsci.plugins.workflow.cps.replay.ReplayCause
 	}
 
+	echo "The class name of replayCause is: [${replayCause.class.name}]"
+
 	// Check applicable conditions on build run
 	if (allowReplayedBuild == false && replayCause != null) {
 		error "Build [${buildID}] is a replay of build [#${replayCause.getOriginalNumber()}], which is not allowed - build is stopped!"
