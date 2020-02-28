@@ -24,7 +24,8 @@ PARAMS_TARGET_RECKON_SCOPE_OPTIONS=[PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE,'pa
 PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE='NA'
 
 @groovy.transform.Field
-PARAMS_TARGET_RECKON_STAGE_OPTIONS=[PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE,'dev','ms','rc','final']
+//PARAMS_TARGET_RECKON_STAGE_OPTIONS=[PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE,'dev','ms','rc','final']
+PARAMS_TARGET_RECKON_STAGE_OPTIONS=[PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE,'ms','rc','final']
 
 @groovy.transform.Field
 PARAMS_DESIGNATED_VERSION_DEFAULT_VALUE=''
@@ -172,15 +173,21 @@ def assimilateEnvironmentVariables() {
 def assimilateParameters() {
 		println "Within assimilateParameters() => Jenkins node name is: [${env.NODE_NAME}]"
 
-		// Overwrite the reckon scope and stage designated values if applicable values were passed as parameters
-		if (params.TARGET_RECKON_SCOPE != PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE)
-		{
+		// If applicable scope value was passed as a parameter use it, otherwise revert to the configured default
+		if (params.TARGET_RECKON_SCOPE != PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
-		if (params.TARGET_RECKON_STAGE != PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE)
-		{
+		else {
+			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = reckon_default_scope
+		}
+
+		// If applicable stage value was passed as a parameter use it, otherwise revert to the configured default
+		if (params.TARGET_RECKON_STAGE != PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
+		else {
+			env.JENKINS_SLAVE_K8S_RECKON_STAGE = reckon_default_stage
+		} 
 }
 
 //
