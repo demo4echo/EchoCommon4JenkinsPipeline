@@ -192,7 +192,7 @@ def assimilateParameters(String commonSubModuleFolderName) {
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
 		else {
-			env.JENKINS_SLAVE_K8S_RECKON_STAGE = defaultReckonStage
+			env.JENKINS_SLAVE_K8S_RECKON_STAGE = branchSpecificConfig.defaultReckonStage
 		}
 }
 
