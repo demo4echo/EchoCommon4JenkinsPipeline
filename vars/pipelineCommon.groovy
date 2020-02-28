@@ -229,9 +229,7 @@ def locateCommonSubModuleFolderName() {
 def loadBranchSpecificConfiguration(String commonSubModuleName) {
 	println "Within loadBranchSpecificConfiguration() => Jenkins node name is: [${env.NODE_NAME}]"
 
-	// Load configuration
-	def branchSpecificConfiguration = new Properties()
-	file(commonSubModuleName + "/" + CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME).withInputStream { branchSpecificConfiguration.load(it) }
+	def branchSpecificConfiguration = readProperties(interpolate: true,file: "${commonSubModuleName}/${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}")
 	
 	return branchSpecificConfiguration
 }
