@@ -42,6 +42,9 @@ CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
 @groovy.transform.Field
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
 
+@groovy.transform.Field
+CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME='branchSpecificConfig.properties'
+
 //
 // Builds a proper Jenkins service pod agent label (name), taking into account the job name
 //
@@ -148,20 +151,20 @@ def assimilateEnvironmentVariables() {
 		selfProps.each {
 			key,value -> env."${key}" = "${value}" 
 		}
-		
-		// Overwrite designated environment variables values if applicable values were passed as parameters
-		// Note - this call must happen AFTER the environment variables were loaded from the file!
-		assimilateParameters()
-
-		// Show resolved environment variables values
-		println "JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME value is: [${env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME}]"
-		println "JENKINS_SLAVE_K8S_RECKON_SCOPE value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
-		println "JENKINS_SLAVE_K8S_RECKON_STAGE value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
 
 		// Manifest common sub module folder name
 		def commonSubModuleFolderName = locateCommonSubModuleFolderName()
 		env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR = commonSubModuleFolderName
 		println "COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR value is: [${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}]"
+
+		// Overwrite designated environment variables values if applicable values were passed as parameters
+		// Note - this call must happen AFTER the environment variables were loaded from the file!
+		assimilateParameters(commonSubModuleFolderName)
+
+		// Show resolved environment variables values
+		println "JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME value is: [${env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME}]"
+		println "JENKINS_SLAVE_K8S_RECKON_SCOPE value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
+		println "JENKINS_SLAVE_K8S_RECKON_STAGE value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
 
 		return env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME
 //	}
@@ -170,17 +173,26 @@ def assimilateEnvironmentVariables() {
 //
 // Digest applicable parameters and overwrite matching environment variables if needed
 //
-def assimilateParameters() {
+def assimilateParameters(String commonSubModuleFolderName) {
 		println "Within assimilateParameters() => Jenkins node name is: [${env.NODE_NAME}]"
+
+		// Obtain branch specific config
+		def branchSpecificConfig = loadBranchSpecificConfiguration(commonSubModuleFolderName)
 
 		// If applicable scope value was passed as a parameter use it, otherwise revert to the configured default
 		if (params.TARGET_RECKON_SCOPE != PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
+		else {
+			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = branchSpecificConfig.defaultReckonScope
+		}
 
 		// If applicable stage value was passed as a parameter use it, otherwise revert to the configured default
 		if (params.TARGET_RECKON_STAGE != PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
+		}
+		else {
+			env.JENKINS_SLAVE_K8S_RECKON_STAGE = defaultReckonStage
 		}
 }
 
@@ -209,6 +221,19 @@ def locateCommonSubModuleFolderName() {
 	}
 */
 	return commonSubModuleName
+}
+
+//
+// Load branch specific configration file and return it as a map
+//
+def loadBranchSpecificConfiguration(String commonSubModuleName) {
+	println "Within loadBranchSpecificConfiguration() => Jenkins node name is: [${env.NODE_NAME}]"
+
+	// Load configuration
+	def branchSpecificConfiguration = new Properties()
+	file(commonSubModuleName + "/" + CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME).withInputStream { branchSpecificConfiguration.load(it) }
+	
+	return branchSpecificConfiguration
 }
 
 return this
