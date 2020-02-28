@@ -177,17 +177,11 @@ def assimilateParameters() {
 		if (params.TARGET_RECKON_SCOPE != PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
-		else {
-			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = reckon_default_scope
-		}
 
 		// If applicable stage value was passed as a parameter use it, otherwise revert to the configured default
 		if (params.TARGET_RECKON_STAGE != PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
-		else {
-			env.JENKINS_SLAVE_K8S_RECKON_STAGE = reckon_default_stage
-		} 
 }
 
 //
