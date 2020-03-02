@@ -248,7 +248,7 @@ def loadBranchSpecificConfiguration(String commonSubModuleName) {
 //
 def obtainBranchNameFromUpstreamJob() {
 	def upstreamCause = currentBuild.rawBuild.getCause(hudson.model.Cause$UpstreamCause)
-	echo upstream?.shortDescription
+	echo upstreamCause?.shortDescription
 }
 
 return this
