@@ -67,18 +67,27 @@ def resolveCloudNameByBranchName() {
 //	node('master') {
 		println "Within resolveCloudNameByBranchName() => Jenkins node name is: [${env.NODE_NAME}]"
 
-		println "Branch name is: [${env.BRANCH_NAME}]"
+		def branchName = env.BRANCH_NAME
+		
+		// Check if the the BRANCH_NAME environment variable is available or try with the upstream job infomartion
+		if (branchName == null || branchName.isEmpty() == true) {
+			println 'BRANCH_NAME environment variable is NOT defined, attempting to resolve by upstream job information'
+
+			obtainBranchNameFromUpstreamJob()
+		}
+
+		println "Branch name is: [${branchName}]"
 
 		// Note: don't use ENV VARs here since they can't be read from their file at this stage!
-		if (env.BRANCH_NAME == 'master') {
+		if (branchName == 'master') {
 			env.CLOUD_NAME = 'production'
-		} else if (env.BRANCH_NAME == 'integration') {                 
+		} else if (branchName == 'integration') {                 
 			env.CLOUD_NAME = 'staging'
 		}
 		else {
 			env.CLOUD_NAME = 'development'		    
 		}
-		
+
 		println "Resolved cloud name is: [${env.CLOUD_NAME}]"
 		
 		// Return the resolved cloud name
@@ -232,6 +241,14 @@ def loadBranchSpecificConfiguration(String commonSubModuleName) {
 	def branchSpecificConfiguration = readProperties(interpolate: true,file: "${commonSubModuleName}/${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}")
 	
 	return branchSpecificConfiguration
+}
+
+//
+// Extract target branch name from upstream job information (from its description)
+//
+def obtainBranchNameFromUpstreamJob() {
+	def upstreamCause = currentBuild.rawBuild.getCause(hudson.model.Cause$UpstreamCause)
+	echo upstream?.shortDescription
 }
 
 return this

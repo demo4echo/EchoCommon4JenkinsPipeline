@@ -7,5 +7,5 @@ def call() {
 	def k8sJenkinsSlaveNodeName = sh(script: 'echo $NODE_HOST_NAME_ENV_VAR', returnStdout: true)
 
 	buildName "#${env.BUILD_NUMBER}${adjustedBuildVersion}"
-	buildDescription "${JOB_NAME}@${BRANCH_NAME}@${k8sJenkinsSlaveNodeName}"
+	buildDescription "${JOB_NAME}@${k8sJenkinsSlaveNodeName}"
 }
