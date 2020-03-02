@@ -257,8 +257,8 @@ def obtainBranchNameFromUpstreamJob() {
 
 	def upstreamJobNameAndBranchPattern = ~/(["'])(?:(?=(\\?))\2.)*?\1/
 	def upstreamJobNameAndBranchMatcher = upstreamCause?.shortDescription =~ upstreamJobNameAndBranchPattern
-	def upstreamJobNameAndBranch = upstreamJobNameAndBranchMatcher[0]
-	def (upstreamJobName,upstreamJobBranch) = upstreamJobNameAndBranch.tokenize('/')
+	def upstreamJobNameAndBranchObject = upstreamJobNameAndBranchMatcher[0]
+	def (upstreamJobName,upstreamJobBranch) = upstreamJobNameAndBranchObject.toString().tokenize('/')
 
 	println "Found the following upstreamJobNameAndBranch: [${upstreamJobNameAndBranchMatcher}]"
 
