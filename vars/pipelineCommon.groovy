@@ -69,10 +69,6 @@ def resolveCloudNameByBranchName() {
 
 		println "Branch name is: [${env.BRANCH_NAME}]"
 
-		println "From scm => GIT Branch is: [${scm.GIT_BRANCH}]"
-		println "From scm => GIT Checkout Dir is: [${scm.GIT_CHECKOUT_DIR}]"
-		println "From scm => GIT Local Branch is: [${scm.GIT_LOCAL_BRANCH}]"
-
 		// Note: don't use ENV VARs here since they can't be read from their file at this stage!
 		if (env.BRANCH_NAME == 'master') {
 			env.CLOUD_NAME = 'production'
