@@ -69,11 +69,13 @@ def resolveCloudNameByBranchName() {
 
 		def branchName = env.BRANCH_NAME
 		
-		// Check if the the BRANCH_NAME environment variable is available or try with the upstream job infomartion
+		// Check if the the BRANCH_NAME environment variable is available or try with the upstream job infomartion (and set a matching env var)
 		if (branchName == null || branchName.isEmpty() == true) {
 			println 'BRANCH_NAME environment variable is NOT defined, attempting to resolve by upstream job information'
 
 			branchName = obtainBranchNameFromUpstreamJob()
+
+			env.UPSTREAM_JOB_BRANCH_NAME = branchName
 		}
 
 		println "Branch name is: [${branchName}]"
