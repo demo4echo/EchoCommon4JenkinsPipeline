@@ -69,6 +69,10 @@ def resolveCloudNameByBranchName() {
 
 		println "Branch name is: [${env.BRANCH_NAME}]"
 
+		println "From scm => GIT Branch is: [${scm.GIT_BRANCH}]"
+		println "From scm => GIT Checkout Dir is: [${scm.GIT_CHECKOUT_DIR}]"
+		println "From scm => GIT Local Branch is: [${scm.GIT_LOCAL_BRANCH}]"
+
 		// Note: don't use ENV VARs here since they can't be read from their file at this stage!
 		if (env.BRANCH_NAME == 'master') {
 			env.CLOUD_NAME = 'production'
@@ -121,10 +125,6 @@ def resolveNamespaceByBranchName() {
 		println "Branch name is: [${env.BRANCH_NAME}]"
 		println "Production branch name ENV_VAR is: [${env.PRODUCTION_BRANCH_NAME_ENV_VAR}]"
 		println "Staging branch name ENV_VAR is: [${env.STAGING_BRANCH_NAME_ENV_VAR}]"
-
-		println "GIT Branch is: [${scm.GIT_BRANCH}]"
-		println "GIT Checkout Dir is: [${scm.GIT_CHECKOUT_DIR}]"
-		println "GIT Local Branch is: [${scm.GIT_LOCAL_BRANCH}]"
 
 		// If we are on the production or staging branches return the regular name (e.g. demo4echo), else return the branch namne itself
 		if (env.BRANCH_NAME == env.PRODUCTION_BRANCH_NAME_ENV_VAR || env.BRANCH_NAME == env.STAGING_BRANCH_NAME_ENV_VAR) {                 
