@@ -262,7 +262,7 @@ def obtainBranchNameFromUpstreamJob() {
 	def (upstreamJobName,upstreamJobBranch) = upstreamJobNameAndBranch.tokenize('/')
 
 	println "Found the following upstreamJobNameAndBranchMatcher: [${upstreamJobNameAndBranchMatcher}]"
-	println "Found the following upstreamJobNameAndBranchList: [${upstreamJobNameAndBranchObject}]"
+	println "Found the following upstreamJobNameAndBranchList: [${upstreamJobNameAndBranchList}]"
 	println "Found the following upstreamJobName: [${upstreamJobName}]"
 	println "Found the following upstreamJobBranch: [${upstreamJobBranch}]"
 
