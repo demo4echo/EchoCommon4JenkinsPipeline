@@ -18,6 +18,8 @@ spec:
     - cat
     tty: true
     env:
+    - name: "JAVA_HOME"
+      value: "/root/.sdkman/candidates/java/current"
     - name: CONTAINER_NAME_ENV_VAR
       valueFrom:
          fieldRef:
