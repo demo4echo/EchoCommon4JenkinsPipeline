@@ -99,6 +99,7 @@ def resolveCloudNameByBranchName() {
 
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the job name
+// It was serving jobs with the designated branch name as part of their name (e.g. EchoFunctionalCertification-production and EchoFunctionalCertification-staging)
 //
 def resolveCloudNameByJobName() {
 	node {
@@ -247,6 +248,8 @@ def loadBranchSpecificConfiguration(String commonSubModuleName) {
 
 //
 // Extract target branch name from upstream job information (from its description)
+// The regexp pattern below searches for strings contained within '"' (including) targeting the upstream job description,
+// for example: 'Started by upstream project "echobe/master" build number 209'
 //
 def obtainBranchNameFromUpstreamJob() {
 	println "Within obtainBranchNameFromUpstreamJob() => Jenkins node name is: [${env.NODE_NAME}]"
