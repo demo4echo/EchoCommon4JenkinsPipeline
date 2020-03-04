@@ -183,11 +183,12 @@ def assimilateEnvironmentVariables() {
 		assimilateParameters(commonSubModuleFolderName)
 
 		// Show resolved environment variables values
-		println "JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME value is: [${env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME}]"
+//		println "JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME value is: [${env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME}]"
 		println "JENKINS_SLAVE_K8S_RECKON_SCOPE value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
 		println "JENKINS_SLAVE_K8S_RECKON_STAGE value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
 
-		return env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME
+		// We don't actually need to return something
+		return null
 //	}
 }
 
