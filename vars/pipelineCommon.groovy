@@ -37,9 +37,6 @@ PARAMS_DESIGNATED_VERSION_REG_EXP=/^$|(^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)
 CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL='jenkins-slave-pod-agent'
 
 @groovy.transform.Field
-CONST_ENV_PROPERTIES_FILE_NAME='EnvFile.properties'
-
-@groovy.transform.Field
 CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.markup'
 
 @groovy.transform.Field
@@ -172,9 +169,9 @@ def assimilateEnvironmentVariables() {
 			key,value -> env."${key}" = "${value}" 
 		}
 
-		// Load properties from file and turn into environment variables
-		def selfProps = readProperties interpolate: true, file: CONST_ENV_PROPERTIES_FILE_NAME
-		selfProps.each {
+		// Load self branch specific properties from file and turn into environment variables
+		def selfBranchSpecificselfProps = loadBranchSpecificConfiguration(null)
+		selfBranchSpecificselfProps.each {
 			key,value -> env."${key}" = "${value}" 
 		}
 
@@ -183,7 +180,6 @@ def assimilateEnvironmentVariables() {
 		assimilateParameters(commonSubModuleFolderName)
 
 		// Show resolved environment variables values
-//		println "JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME value is: [${env.JENKINS_SLAVE_K8S_DEPLOYMENT_CLOUD_NAME}]"
 		println "JENKINS_SLAVE_K8S_RECKON_SCOPE value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
 		println "JENKINS_SLAVE_K8S_RECKON_STAGE value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
 
@@ -198,7 +194,7 @@ def assimilateEnvironmentVariables() {
 def assimilateParameters(String commonSubModuleFolderName) {
 		println "Within assimilateParameters() => Jenkins node name is: [${env.NODE_NAME}]"
 
-		// Obtain branch specific config
+		// Obtain branch specific config for common module
 		def branchSpecificConfig = loadBranchSpecificConfiguration(commonSubModuleFolderName)
 
 		// If applicable scope value was passed as a parameter use it, otherwise revert to the configured default
