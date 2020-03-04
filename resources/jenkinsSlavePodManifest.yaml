@@ -6,7 +6,7 @@ metadata:
     slave-agent: jenkins
 spec:
   nodeSelector:
-    kubernetes.io/hostname: k8snodestf-worker-2
+    kubernetes.io/hostname: k8snodestf-worker-3
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
   containers:
