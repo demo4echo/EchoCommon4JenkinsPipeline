@@ -131,11 +131,11 @@ def resolveNamespaceByBranchName() {
 		println "Within resolveNamespaceByBranchName() => Jenkins node name is: [${env.NODE_NAME}]"
 
 		println "Branch name is: [${env.BRANCH_NAME}]"
-		println "Production branch name ENV_VAR is: [${env.PRODUCTION_BRANCH_NAME_ENV_VAR}]"
-		println "Staging branch name ENV_VAR is: [${env.STAGING_BRANCH_NAME_ENV_VAR}]"
+		println "Production branch name ENV_VAR is: [${env.production_branch_name}]"
+		println "Staging branch name ENV_VAR is: [${env.staging_branch_name}]"
 
 		// If we are on the production or staging branches return the regular name (e.g. demo4echo), else return the branch namne itself
-		if (env.BRANCH_NAME == env.PRODUCTION_BRANCH_NAME_ENV_VAR || env.BRANCH_NAME == env.STAGING_BRANCH_NAME_ENV_VAR) {                 
+		if (env.BRANCH_NAME == env.production_branch_name || env.BRANCH_NAME == env.staging_branch_name) {                 
 			env.RESOLVED_NAMESPACE = env.service_name
 		}
 		else {
@@ -180,8 +180,8 @@ def assimilateEnvironmentVariables() {
 		assimilateParameters(commonSubModuleFolderName)
 
 		// Show resolved environment variables values
-		println "JENKINS_SLAVE_K8S_RECKON_SCOPE value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
-		println "JENKINS_SLAVE_K8S_RECKON_STAGE value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
+		println "designatedReckonScope value is: [${env.designatedReckonScope}]"
+		println "designatedReckonStage value is: [${env.designatedReckonStage}]"
 
 		// We don't actually need to return something
 		return null
