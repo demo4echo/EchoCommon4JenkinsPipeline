@@ -7,6 +7,16 @@ metadata:
 spec:
 #  nodeSelector:
 #    kubernetes.io/hostname: k8snodestf-worker-0
+  affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: slave-agent
+          operator: In
+          values:
+          - jenkins
+      topologyKey: "kubernetes.io/hostname"
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
   containers:
