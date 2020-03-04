@@ -45,6 +45,9 @@ CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN='**/_CommonSubModulePickup.ma
 @groovy.transform.Field
 CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME='branchSpecificConfig.properties'
 
+@groovy.transform.Field
+CONST_COMMON_GRADLE_CONFIGURATION_FILE_PATH='.gradle/gradle.properties'
+
 //
 // Builds a proper Jenkins service pod agent label (name), taking into account the job name
 //
@@ -136,7 +139,7 @@ def resolveNamespaceByBranchName() {
 
 		// If we are on the production or staging branches return the regular name (e.g. demo4echo), else return the branch namne itself
 		if (env.BRANCH_NAME == env.PRODUCTION_BRANCH_NAME_ENV_VAR || env.BRANCH_NAME == env.STAGING_BRANCH_NAME_ENV_VAR) {                 
-			env.RESOLVED_NAMESPACE = service_name
+			env.RESOLVED_NAMESPACE = env.service_name
 		}
 		else {
 			env.RESOLVED_NAMESPACE = env.BRANCH_NAME
@@ -157,6 +160,12 @@ def assimilateEnvironmentVariables() {
 //		checkout(scm) => don't need it as we'll call the function after the repository has been fetched (checkout(scm) is called in the 'agent' phase)
 
 		println "Within assimilateEnvironmentVariables() => Jenkins node name is: [${env.NODE_NAME}]"
+
+		// Load common gradle properties from file and turn into environment variables
+		def commonProps = loadCommonGradleConfiguration
+		commonProps.each {
+			key,value -> env."${key}" = "${value}" 
+		}
 
 		// Load properties from file and turn into environment variables
 		def selfProps = readProperties interpolate: true, file: CONST_ENV_PROPERTIES_FILE_NAME
@@ -241,9 +250,22 @@ def locateCommonSubModuleFolderName() {
 def loadBranchSpecificConfiguration(String commonSubModuleName) {
 	println "Within loadBranchSpecificConfiguration() => Jenkins node name is: [${env.NODE_NAME}]"
 
-	def branchSpecificConfiguration = readProperties(interpolate: true,file: "${commonSubModuleName}/${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}")
+	def configFileName = commonSubModuleName ? "${commonSubModuleName}/${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}" : "${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}"
+	def branchSpecificConfiguration = readProperties(interpolate: true,file: configFileName)
 	
 	return branchSpecificConfiguration
+}
+
+//
+// Load common gradle configration file and return it as a map
+//
+def loadCommonGradleConfiguration(String commonSubModuleName) {
+	println "Within loadCommonGradleConfiguration() => Jenkins node name is: [${env.NODE_NAME}]"
+
+	def configFileName = "${commonSubModuleName}/${CONST_COMMON_GRADLE_CONFIGURATION_FILE_PATH}"
+	def commonGradleConfiguration = readProperties(interpolate: true,file: configFileName)
+
+	return commonGradleConfiguration
 }
 
 //
