@@ -161,8 +161,13 @@ def assimilateEnvironmentVariables() {
 
 		println "Within assimilateEnvironmentVariables() => Jenkins node name is: [${env.NODE_NAME}]"
 
+		// Manifest common sub module folder name
+		def commonSubModuleFolderName = locateCommonSubModuleFolderName()
+		env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR = commonSubModuleFolderName
+		println "COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR value is: [${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}]"
+
 		// Load common gradle properties from file and turn into environment variables
-		def commonProps = loadCommonGradleConfiguration
+		def commonProps = loadCommonGradleConfiguration(commonSubModuleFolderName)
 		commonProps.each {
 			key,value -> env."${key}" = "${value}" 
 		}
@@ -172,11 +177,6 @@ def assimilateEnvironmentVariables() {
 		selfProps.each {
 			key,value -> env."${key}" = "${value}" 
 		}
-
-		// Manifest common sub module folder name
-		def commonSubModuleFolderName = locateCommonSubModuleFolderName()
-		env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR = commonSubModuleFolderName
-		println "COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR value is: [${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}]"
 
 		// Overwrite designated environment variables values if applicable values were passed as parameters
 		// Note - this call must happen AFTER the environment variables were loaded from the file!
