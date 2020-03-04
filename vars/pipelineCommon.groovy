@@ -136,7 +136,7 @@ def resolveNamespaceByBranchName() {
 
 		// If we are on the production or staging branches return the regular name (e.g. demo4echo), else return the branch namne itself
 		if (env.BRANCH_NAME == env.PRODUCTION_BRANCH_NAME_ENV_VAR || env.BRANCH_NAME == env.STAGING_BRANCH_NAME_ENV_VAR) {                 
-			env.RESOLVED_NAMESPACE = env.SERVICE_NAME_ENV_VAR
+			env.RESOLVED_NAMESPACE = service_name
 		}
 		else {
 			env.RESOLVED_NAMESPACE = env.BRANCH_NAME
@@ -196,7 +196,7 @@ def assimilateParameters(String commonSubModuleFolderName) {
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
 		else {
-			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = branchSpecificConfig.defaultReckonScope
+			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = branchSpecificConfig.default_reckon_scope
 		}
 
 		// If applicable stage value was passed as a parameter use it, otherwise revert to the configured default
@@ -204,7 +204,7 @@ def assimilateParameters(String commonSubModuleFolderName) {
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
 		else {
-			env.JENKINS_SLAVE_K8S_RECKON_STAGE = branchSpecificConfig.defaultReckonStage
+			env.JENKINS_SLAVE_K8S_RECKON_STAGE = branchSpecificConfig.default_reckon_stage
 		}
 }
 
