@@ -164,24 +164,25 @@ def assimilateEnvironmentVariables() {
 		println "COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR value is: [${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}]"
 
 		// Load common gradle properties from file and turn into environment variables
-		def commonProps = loadCommonGradleConfiguration(commonSubModuleFolderName)
-		commonProps.each {
-			key,value -> env."${key}" = "${value}" 
-		}
+//		def commonProps = loadCommonGradleConfiguration(commonSubModuleFolderName)
+//		commonProps.each {
+//			key,value -> env."${key}" = "${value}" 
+//		}
 
 		// Load self branch specific properties from file and turn into environment variables
-		def selfBranchSpecificselfProps = loadBranchSpecificConfiguration(null)
-		selfBranchSpecificselfProps.each {
-			key,value -> env."${key}" = "${value}" 
-		}
+//		def selfBranchSpecificProps = loadBranchSpecificConfiguration(null)
+//		selfBranchSpecificProps.each {
+//			key,value -> env."${key}" = "${value}" 
+//		}
 
 		// Overwrite designated environment variables values if applicable values were passed as parameters
 		// Note - this call must happen AFTER the environment variables were loaded from the file!
+//		assimilateParameters(commonSubModuleFolderName,selfBranchSpecificProps)
 		assimilateParameters(commonSubModuleFolderName)
 
 		// Show resolved environment variables values
-		println "designatedReckonScope value is: [${env.designatedReckonScope}]"
-		println "designatedReckonStage value is: [${env.designatedReckonStage}]"
+		println "Applicable Reckon Scope value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
+		println "Applicable Reckon Stage value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
 
 		// We don't actually need to return something
 		return null
@@ -191,26 +192,40 @@ def assimilateEnvironmentVariables() {
 //
 // Digest applicable parameters and overwrite matching environment variables if needed
 //
+//def assimilateParameters(String commonSubModuleFolderName,Map selfBranchSpecificProps) {
 def assimilateParameters(String commonSubModuleFolderName) {
 		println "Within assimilateParameters() => Jenkins node name is: [${env.NODE_NAME}]"
 
-		// Obtain branch specific config for common module
-		def branchSpecificConfig = loadBranchSpecificConfiguration(commonSubModuleFolderName)
+		// Obtain (common) branch specific config for common module
+		def commonBranchSpecificConfig = loadBranchSpecificConfiguration(commonSubModuleFolderName)
 
-		// If applicable scope value was passed as a parameter use it, otherwise revert to the configured default
+		// Obtain self branch specific properties from file
+		def selfBranchSpecificProps = loadBranchSpecificConfiguration(null)
+
+		// If applicable scope value was passed as a parameter use it, 
+		// otherwise prefer self (branch specific) configuration, 
+		// or else revert to the common configured default
 		if (params.TARGET_RECKON_SCOPE != PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = params.TARGET_RECKON_SCOPE
 		}
+		else if (selfBranchSpecificProps.designatedReckonScope != null && selfBranchSpecificProps.designatedReckonScope.trim().isEmpty() == false) {
+			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = selfBranchSpecificProps.designatedReckonScope
+		}
 		else {
-			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = branchSpecificConfig.default_reckon_scope
+			env.JENKINS_SLAVE_K8S_RECKON_SCOPE = commonBranchSpecificConfig.default_reckon_scope
 		}
 
-		// If applicable stage value was passed as a parameter use it, otherwise revert to the configured default
+		// If applicable stage value was passed as a parameter use it, 
+		// otherwise prefer self (branch specific) configuration, 
+		// or else revert to the common configured default
 		if (params.TARGET_RECKON_STAGE != PARAMS_TARGET_RECKON_STAGE_DEFAULT_VALUE) {
 			env.JENKINS_SLAVE_K8S_RECKON_STAGE = params.TARGET_RECKON_STAGE
 		}
+		else if (selfBranchSpecificProps.designatedReckonStage != null && selfBranchSpecificProps.designatedReckonStage.trim().isEmpty() == false) {
+			env.JENKINS_SLAVE_K8S_RECKON_STAGE = selfBranchSpecificProps.designatedReckonStage
+		}
 		else {
-			env.JENKINS_SLAVE_K8S_RECKON_STAGE = branchSpecificConfig.default_reckon_stage
+			env.JENKINS_SLAVE_K8S_RECKON_STAGE = commonBranchSpecificConfig.default_reckon_stage
 		}
 }
 
