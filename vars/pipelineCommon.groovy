@@ -37,6 +37,9 @@ PARAMS_DESIGNATED_VERSION_MESSAGE_DEFAULT_VALUE=''
 PARAMS_DESIGNATED_VERSION_REG_EXP=/^$|(^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$)/
 
 @groovy.transform.Field
+PARAMS_PUBLISH_LATEST_ARTIFACTS_DEFAULT_VALUE=true
+
+@groovy.transform.Field
 CONST_JENKINS_SLAVE_POD_AGENT_BASE_LABEL='jenkins-slave-pod-agent'
 
 @groovy.transform.Field
