@@ -12,7 +12,7 @@ K8S_AGENT_DEFAULT_CONTAINER='jenkins-slave-container'
 OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR='25'
 
 @groovy.transform.Field
-PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS=['Jenkinsfile','Jenkinsfile4Release']
+PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS=['Jenkinsfile','Jenkinsfile2Stamp','Jenkinsfile4Release']
 
 @groovy.transform.Field
 PARAMS_TARGET_RECKON_SCOPE_DEFAULT_VALUE='NA'
