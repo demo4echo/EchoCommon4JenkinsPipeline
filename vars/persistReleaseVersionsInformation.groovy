@@ -1,6 +1,8 @@
 @Grab('org.ajoberstar.grgit:grgit-core:4.0.1') // version was 4.0.+
 import org.ajoberstar.grgit.Grgit 
 
+import java.nio.file.Paths 
+
 //
 // Custom step: Update a file (in the repositiry) holding a summary of all the micro-servics latest versions and mark it with a proper tag
 // Parameters:
