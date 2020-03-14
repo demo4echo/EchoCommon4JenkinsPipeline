@@ -14,7 +14,8 @@ import org.ajoberstar.grgit.Grgit
 //
 def call(String releaseVersionsDataAsYamlStr) {
 	// Persist (and update) the yaml file into the root of the repository
-	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
+//	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
+	writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
 
 	sleep 300
 
