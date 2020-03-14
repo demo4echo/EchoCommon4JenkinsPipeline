@@ -1,4 +1,4 @@
-@Grab('org.ajoberstar.grgit:grgit-core:5.0.1') // version was 4.0.+
+@Grab('org.ajoberstar.grgit:grgit-core:4.0.1') // version was 4.0.+
 import org.ajoberstar.grgit.Grgit 
 
 //
