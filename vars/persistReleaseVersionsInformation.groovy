@@ -1,7 +1,5 @@
-@Grab('org.ajoberstar.grgit:grgit-core:4.0.1') // version was 4.0.+
+@Grab('org.ajoberstar.grgit:grgit-core:5.0.1') // version was 4.0.+
 import org.ajoberstar.grgit.Grgit 
-
-import java.nio.file.Paths 
 
 //
 // Custom step: Update a file (in the repositiry) holding a summary of all the micro-servics latest versions and mark it with a proper tag
@@ -16,7 +14,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
 	// Work with grgit
-	def grgit = Grgit.open(dir: Paths.get(pwd()))
+	def grgit = Grgit.open(dir: pwd())
 
 //	sleep 300
 }
