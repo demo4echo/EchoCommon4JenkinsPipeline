@@ -65,5 +65,5 @@ def call(String releaseVersionsDataAsYamlStr) {
 	System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
 
 	// Push everything to the remote repo
-	grgit.push(tags: true, remote: env.GIT_URL)
+	grgit.push(tags: true, remote: env.GIT_URL, force: true)
 }
