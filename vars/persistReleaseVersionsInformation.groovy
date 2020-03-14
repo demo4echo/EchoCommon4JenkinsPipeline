@@ -1,4 +1,4 @@
-@Grab('org.ajoberstar:grgit:1.8.+')
+@Grab('org.ajoberstar:grgit:1.7.2') // version was 1.8.+
 import org.ajoberstar.grgit.Grgit 
 
 //
@@ -14,7 +14,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
 	// Work with grgit
-	def grgit = Grgit.open(dir: "${env.WORKSPACE}")
+	def grgit = Grgit.open(dir: "${env.WORKSPACE}/.git")
 
 	sleep 300
 }
