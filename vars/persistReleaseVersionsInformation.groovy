@@ -1,3 +1,6 @@
+@Grab('org.ajoberstar:grgit:1.8.+')
+import org.ajoberstar.grgit.Grgit 
+
 //
 // Custom step: Update a file (in the repositiry) holding a summary of all the micro-servics latest versions and mark it with a proper tag
 // Parameters:
@@ -10,5 +13,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Persist (and update) the yaml file into the root of the repository
 	writeYaml file: "${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
-	sleep 300
+	// Work with grgit
+	def grgit = Grgit.open(dir: '.')
+
+//	sleep 300
 }
