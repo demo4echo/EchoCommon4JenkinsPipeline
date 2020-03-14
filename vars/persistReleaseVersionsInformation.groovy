@@ -60,7 +60,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
 	echo "The token is: [${env.GRGIT_USER}]"
-//	System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
+	System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
 
 	// Push everything to the remote repo
 	grgit.push(tags: true, remote: env.GIT_URL)
