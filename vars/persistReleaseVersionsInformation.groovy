@@ -59,6 +59,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Create the annotated tag (replace if needed)
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
+	echo "The token is: [${env.GRGIT_USER}]"
+
 	// Push everything to the remote repo
 	grgit.push(tags: true, remote: env.GIT_URL)
 }
