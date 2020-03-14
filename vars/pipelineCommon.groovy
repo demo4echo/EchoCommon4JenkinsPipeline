@@ -51,6 +51,9 @@ CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME='branchSpecificConfig.properties'
 @groovy.transform.Field
 CONST_COMMON_GRADLE_CONFIGURATION_FILE_PATH='.gradle/gradle.properties'
 
+@groovy.transform.Field
+CONST_RELEASE_VERSIONS_FILE_NAME='releaseVersions.yaml'
+
 //
 // Builds a proper Jenkins service pod agent label (name), taking into account the job name
 //
