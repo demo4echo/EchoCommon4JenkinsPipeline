@@ -10,5 +10,5 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Persist (and update) the yaml file into the root of the repository
 	writeYaml file: "${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
-//	sleep 300
+	sleep 300
 }
