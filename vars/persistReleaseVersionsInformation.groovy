@@ -60,8 +60,10 @@ def call(String releaseVersionsDataAsYamlStr) {
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
 	// Print remotes
-	grgit.remote.list().each {
-		println it
+	def remotesList = grgit.remote.list()
+	echo "Size of remotes list is: [${remotesList.size()}]"
+	remotesList.each {
+		echo "Observing the following remote: ${it}"
 	}
 
 	// Push everything to the remote repo
