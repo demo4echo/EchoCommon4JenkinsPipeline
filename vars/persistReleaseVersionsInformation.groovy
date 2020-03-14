@@ -60,6 +60,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
 	// Print remotes
+	sh 'git remote show origin'
 	def remotesList = grgit.remote.list()
 	echo "Size of remotes list is: [${remotesList.size()}]"
 	remotesList.each {
