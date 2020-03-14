@@ -59,6 +59,15 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Create the annotated tag (replace if needed)
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
+	// Print test
+	test()
+
+	// Push everything to the remote repo
+	grgit.push(tags: true)
+}
+
+@NonCPS
+def test() {
 	// Print remotes
 	sh 'git remote show origin'
 	def remotesList = grgit.remote.list()
@@ -66,7 +75,4 @@ def call(String releaseVersionsDataAsYamlStr) {
 	remotesList.each {
 		echo "Observing the following remote: ${it}"
 	}
-
-	// Push everything to the remote repo
-	grgit.push(tags: true)
 }
