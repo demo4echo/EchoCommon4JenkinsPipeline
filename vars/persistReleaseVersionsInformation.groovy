@@ -38,11 +38,11 @@ def call(String releaseVersionsDataAsYamlStr) {
 	if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
 		tagName = params.DESIGNATED_VERSION
 	}
-	// Else fallback to the current date-time
+	// Else fallback to the current date (can't use date-time (LocalDateTime()) since it contains ":" which isn't allowed in tag name)
 	else {
-		def currentDateTime = java.time.LocalDateTime.now()
-		echo "No designated version observed, defaulting to current date-time: [${currentDateTime}]"
-		tagName = currentDateTime
+		def currentDate = java.time.LocalDate.now()
+		echo "No designated version observed, defaulting to current date: [${currentDate}]"
+		tagName = currentDate
 	}
 
 	// If we have a designated message - use it
@@ -56,8 +56,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 		tagMessage = fallbackMessage
 	}
 
-	// Create the annotated tag
-	grgit.tag.add(name: tagName, message: tagMessage)
+	// Create the annotated tag (replace if needed)
+	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
 	// Push everything to the remote repo
 	grgit.push(tags: true)
