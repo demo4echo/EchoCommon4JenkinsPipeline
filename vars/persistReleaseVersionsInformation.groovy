@@ -14,7 +14,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
 	// Work with grgit
-	def grgit = Grgit.open(dir: "${env.WORKSPACE}/.git")
+	def grgit = Grgit.open(currentDir: "${env.WORKSPACE}")
 
 //	sleep 300
 }
