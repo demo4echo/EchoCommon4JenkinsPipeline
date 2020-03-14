@@ -21,12 +21,10 @@ def call(String releaseVersionsDataAsYamlStr) {
 	//
 
 	// Init repo
-	def grgit = Grgit.init(dir: pwd())
+	def grgit = Grgit.open()
 
 	// Stage changes
 	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
-
-	sh 'sleep 300'
 
 	// Commit changes
 	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file")
@@ -40,7 +38,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
 		tagName = params.DESIGNATED_VERSION
 	}
-	// Else fallback to the current date (can't use date-time (LocalDateTime()) since it contains ":" which isn't allowed in tag name)
+	// Else fallback to the current date (can't use date-time (java.time.LocalDateTime().now()) since it contains ":" which isn't allowed in tag name)
 	else {
 		def currentDate = java.time.LocalDate.now()
 		echo "No designated version observed, defaulting to current date: [${currentDate}]"
