@@ -24,7 +24,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	def grgit = Grgit.open(currentDir: env.WORKSPACE)
 
 	// Stage changes
-	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME + "aaa"])
 
 	// Commit changes
 	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file")
@@ -59,20 +59,6 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Create the annotated tag (replace if needed)
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
-	// Print test
-	test()
-
 	// Push everything to the remote repo
 	grgit.push(tags: true)
-}
-
-@NonCPS
-def test() {
-	// Print remotes
-	sh 'git remote show origin'
-	def remotesList = grgit.remote.list()
-	echo "Size of remotes list is: [${remotesList.size()}]"
-	remotesList.each {
-		echo "Observing the following remote: ${it}"
-	}
 }
