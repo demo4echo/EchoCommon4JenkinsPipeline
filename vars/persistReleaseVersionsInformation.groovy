@@ -24,7 +24,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	def grgit = Grgit.open(currentDir: env.WORKSPACE)
 
 	// Stage changes
-	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME + "aaa"])
+	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 
 	// Commit changes
 	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file")
@@ -60,5 +60,5 @@ def call(String releaseVersionsDataAsYamlStr) {
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
 	// Push everything to the remote repo
-	grgit.push(tags: true)
+	grgit.push(tags: true, remote: env.GIT_URL)
 }
