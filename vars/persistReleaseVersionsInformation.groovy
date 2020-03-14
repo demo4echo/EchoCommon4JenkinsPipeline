@@ -59,6 +59,11 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Create the annotated tag (replace if needed)
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
+	// Print remotes
+	grgit.remote.list().each {
+		println it
+	}
+
 	// Push everything to the remote repo
 	grgit.push(tags: true)
 }
