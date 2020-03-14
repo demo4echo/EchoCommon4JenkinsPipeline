@@ -21,7 +21,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	//
 
 	// Init repo
-	def grgit = Grgit.open(currentDir: file('.'))
+	def grgit = Grgit.open(currentDir: env.WORKSPACE)
 
 	// Stage changes
 	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
