@@ -1,4 +1,4 @@
-@Grab('org.ajoberstar:grgit:1.7.2') // version was 1.8.+
+@Grab('org.ajoberstar.grgit:grgit-core:4.0.1') // version was 4.0.+
 import org.ajoberstar.grgit.Grgit 
 
 //
@@ -13,12 +13,10 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Persist (and update) the yaml file into the root of the repository
 	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
-	script {
-		// Work with grgit
-		def currentFolder = pwd()
-		echo "Current folder is: [${currentFolder}]"
-		def grgit = Grgit.open(currentDir: currentFolder)
-	}
+	// Work with grgit
+	def currentFolder = pwd()
+	echo "Current folder is: [${currentFolder}]"
+	def grgit = Grgit.open(currentDir: currentFolder)
 
 //	sleep 300
 }
