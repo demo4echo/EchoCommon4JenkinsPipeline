@@ -26,6 +26,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Stage changes
 	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 
+	sleep 300
+
 	// Commit changes
 	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file")
 
