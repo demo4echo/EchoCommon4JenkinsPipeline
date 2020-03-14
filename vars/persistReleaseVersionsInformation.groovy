@@ -17,15 +17,18 @@ def call(String releaseVersionsDataAsYamlStr) {
 //	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 	writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
 
-	sleep 300
+//	sleep 300
+	def currentDirectory = pwd()
+	echo "Current directory is: [${currentDirectory}]"
+	echo "Workspace directory is: [${env.WORKSPACE}]"
 
 	//
 	// Work with the VCS (git) via the grgit library
 	//
 
 	// Init repo
-	def grgit = Grgit.open(currentDir: env.WORKSPACE)
-//	def grgit = Grgit.open(dir: env.WORKSPACE)
+//	def grgit = Grgit.open(currentDir: env.WORKSPACE)
+	def grgit = Grgit.open(dir: env.WORKSPACE)
 
 	// Stage changes
 //	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
