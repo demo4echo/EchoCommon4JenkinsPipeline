@@ -16,5 +16,5 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Work with grgit
 	def grgit = Grgit.open(dir: "${env.WORKSPACE}/.git")
 
-	sleep 300
+//	sleep 300
 }
