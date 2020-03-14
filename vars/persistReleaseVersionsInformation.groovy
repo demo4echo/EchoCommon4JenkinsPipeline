@@ -13,8 +13,12 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Persist (and update) the yaml file into the root of the repository
 	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
-	// Work with grgit
-	def grgit = Grgit.open(currentDir: "${env.WORKSPACE}")
+	script {
+		// Work with grgit
+		def currentFolder = pwd()
+		echo "Current folder is: [${currentFolder}]"
+		def grgit = Grgit.open(currentDir: currentFolder)
+	}
 
 //	sleep 300
 }
