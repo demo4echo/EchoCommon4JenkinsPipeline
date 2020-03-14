@@ -24,7 +24,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 	def grgit = Grgit.open(currentDir: env.WORKSPACE)
 
 	// Stage changes
-	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+//	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+	grgit.add()
 
 	// Commit changes
 	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file")
@@ -59,7 +60,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 	// Create the annotated tag (replace if needed)
 	grgit.tag.add(name: tagName, message: tagMessage, force: true)
 
-	echo "The token is: [${env.GRGIT_USER}]"
+	// Setup authentication
+	echo "The GRGIT token is: [${env.GRGIT_USER}]"
 	System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
 
 	// Push everything to the remote repo
