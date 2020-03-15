@@ -42,13 +42,13 @@ def call(String releaseVersionsDataAsYamlStr) {
 		//
 
 		// Init repo
-	//	def grgit = Grgit.open(currentDir: env.WORKSPACE)
-	//	def grgit = Grgit.open(dir: env.WORKSPACE)
+//		def grgit = Grgit.open(currentDir: env.WORKSPACE)
+//		def grgit = Grgit.open(dir: env.WORKSPACE)
 		def grgit = Grgit.open()
 
 		// Stage changes
-	//	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
-		grgit.add(patterns: ['.'])
+		grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+//		grgit.add(patterns: ['.'])
 
 		// Commit changes
 		grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
