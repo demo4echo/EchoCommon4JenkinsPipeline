@@ -29,9 +29,9 @@ def push2RemoteWithGit() {
 	def GIT_ASKPASS_HELPER_FILE_NAME='./git-askpass.sh'
 
 	// Do some setup
-	env.GIT_AUTHOR_NAME = env.USER
-	env.GIT_AUTHOR_EMAIL = "admin@efrat.com"
-	env.GIT_ASKPASS = "${GIT_ASKPASS_HELPER_FILE_NAME}"
+	sh 'export GIT_AUTHOR_NAME=$USER'
+	sh 'export GIT_AUTHOR_EMAIL=admin@efrat.com'
+	sh "export GIT_ASKPASS=${GIT_ASKPASS_HELPER_FILE_NAME}"
 	
 	sh 'echo author name is: $GIT_AUTHOR_NAME'
 
