@@ -13,17 +13,11 @@ import org.ajoberstar.grgit.Grgit
 //		which will be used for authentication by the grgit libraray (used below) during the push operation!
 //
 def call(String releaseVersionsDataAsYamlStr) {
-	// Persist (and update) the yaml file into the root of the repository
-//	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
-	writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
-
-//	sleep 300
-
 	// Print some info
 	def pwdDir = pwd()
 	def userDir = System.properties['user.dir']
 	echo "Workspace dir is: [${env.WORKSPACE}]"
-	echo "pwd() dir is: [${pwdDir}]"
+	echo "Original pwd() dir is: [${pwdDir}]"
 	echo "Original User dir: [${userDir}]"
 
 	// Adjust current directory
@@ -37,6 +31,10 @@ def call(String releaseVersionsDataAsYamlStr) {
 
 		sh 'pwd'
 
+		// Persist (and update) the yaml file into the root of the repository
+//		writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
+		writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
+
 		//
 		// Work with the VCS (git) via the grgit library
 		//
@@ -47,9 +45,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 		def grgit = Grgit.open()
 
 		// Stage changes
-//		grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+		grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 //		grgit.add(patterns: ['.'])
-		grgit.add(patterns: ['abc.d'])
 
 		// Commit changes
 		grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
