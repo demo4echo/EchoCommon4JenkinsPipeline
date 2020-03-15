@@ -18,9 +18,13 @@ def call(String releaseVersionsDataAsYamlStr) {
 	writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
 
 //	sleep 300
-	def currentDirectory = pwd()
-	echo "Current directory is: [${currentDirectory}]"
-	echo "Workspace directory is: [${env.WORKSPACE}]"
+
+	// Print some info
+	def pwdDir = pwd()
+	def userDir = System.properties['user.dir']
+	echo "Workspace dir is: [${env.WORKSPACE}]"
+	echo "pwd() dir is: [${pwdDir}]"
+	echo "User dir: [${userDir}]"
 
 	//
 	// Work with the VCS (git) via the grgit library
