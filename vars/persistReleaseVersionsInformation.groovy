@@ -35,7 +35,7 @@ def call(String releaseVersionsDataAsYamlStr) {
 	grgit.add(patterns: ['.'])
 
 	// Commit changes
-	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: ["${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}"])
+	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 
 	//
 	// Create a suitable tag to mark this update
