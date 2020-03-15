@@ -47,8 +47,9 @@ def call(String releaseVersionsDataAsYamlStr) {
 		def grgit = Grgit.open()
 
 		// Stage changes
-		grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+//		grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 //		grgit.add(patterns: ['.'])
+		grgit.add(patterns: ['abc.d'])
 
 		// Commit changes
 		grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
