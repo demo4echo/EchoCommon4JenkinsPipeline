@@ -18,8 +18,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 //	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
 	// Upload to remote repository (including a matching tag)
-	push2RemoteWithGrgit()
-//	push2RemoteWithGit()
+//	push2RemoteWithGrgit()
+	push2RemoteWithGit()
 }
 
 //
