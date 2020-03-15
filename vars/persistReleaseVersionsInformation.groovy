@@ -13,8 +13,26 @@ import org.ajoberstar.grgit.Grgit
 //		which will be used for authentication by the grgit libraray (used below) during the push operation!
 //
 def call(String releaseVersionsDataAsYamlStr) {
-	tiran()
+	// Persist (and update) the yaml file into the root of the repository
+	writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
+//	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
+	// Upload to remote repository (including a matching tag)
+	push2RemoteWithGrgit()
+//	push2RemoteWithGit()
+}
+
+//
+// Push the generated artifacts to the remote repository using git
+//
+def push2RemoteWithGit() {
+
+}
+
+//
+// Push the generated artifacts to the remote repository using Grgit - currently doesn't work!!!
+//
+def push2RemoteWithGrgit() {
 	// Print some info
 	def pwdDir = pwd()
 	def userDir = System.properties['user.dir']
@@ -33,10 +51,6 @@ def call(String releaseVersionsDataAsYamlStr) {
 
 		sh 'pwd'
 
-		// Persist (and update) the yaml file into the root of the repository
-		writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
-//		writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
-
 		//
 		// Work with the VCS (git) via the grgit library
 		//
@@ -45,6 +59,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 //		def grgit = Grgit.open(currentDir: env.WORKSPACE)
 //		def grgit = Grgit.open(dir: env.WORKSPACE)
 		def grgit = Grgit.open()
+
+		echo "GIT_DIR is: [${env.GIT_DIR}]"
 
 		// Stage changes
 		grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
@@ -90,8 +106,4 @@ def call(String releaseVersionsDataAsYamlStr) {
 		// Push everything to the remote repo
 		grgit.push(tags: true, remote: env.GIT_URL, force: true)
 	}
-}
-
-def tiran() {
-	echo 'tiran'
 }
