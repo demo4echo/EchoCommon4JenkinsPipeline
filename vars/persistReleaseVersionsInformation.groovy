@@ -32,8 +32,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 		sh 'pwd'
 
 		// Persist (and update) the yaml file into the root of the repository
-//		writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 		writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
+//		writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
 
 		//
 		// Work with the VCS (git) via the grgit library
