@@ -40,7 +40,7 @@ def push2RemoteWithGit() {
 	sh "git add ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}"
 
 	// Commit changes
-	sh "export GIT_AUTHOR_NAME='${buildUserName}'; export GIT_AUTHOR_EMAIL='${buildUserId}@efrat.com'; printrnv; git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
+	sh "export GIT_AUTHOR_NAME='${buildUserName}'; export GIT_AUTHOR_EMAIL='${buildUserId}@efrat.com'; printenv; git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
 
 	// Create a suitable tag to mark this update
 	def (tagName,tagMessage) = manifestTagNameAndMessage()
