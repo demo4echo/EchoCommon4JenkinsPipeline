@@ -26,6 +26,25 @@ def call(String releaseVersionsDataAsYamlStr) {
 // Push the generated artifacts to the remote repository using git
 //
 def push2RemoteWithGit() {
+	def GIT_ASKPASS_HELPER_FILE_NAME='git-askpass.sh'
+
+	// Do some setup
+	env.GIT_AUTHOR_NAME="$USER"
+	env.GIT_AUTHOR_EMAIL="admin@efrat.com"
+	env.GIT_ASKPASS="${GIT_ASKPASS_HELPER_FILE_NAME}"
+	
+	// Write the token helper temp file (will be deleted) and make it executable
+	writefile file: GIT_ASKPASS_HELPER_FILE_NAME text: "echo ${env.GRGIT_USER}"
+	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
+
+	// Stage changes
+	sh "git add ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}"
+
+	// Commit changes
+	sh "git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
+
+	// Create a suitable tag to mark this update
+	def (tagName,tagMessage) = manifestTagNameAndMessage()
 
 }
 
@@ -55,6 +74,8 @@ def push2RemoteWithGrgit() {
 		// Work with the VCS (git) via the grgit library
 		//
 
+		env.GIT_DIR = env.WORKSPACE
+
 		// Init repo
 //		def grgit = Grgit.open(currentDir: env.WORKSPACE)
 //		def grgit = Grgit.open(dir: env.WORKSPACE)
@@ -69,32 +90,8 @@ def push2RemoteWithGrgit() {
 		// Commit changes
 		grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 
-		//
 		// Create a suitable tag to mark this update
-		//
-		def tagName,tagMessage
-
-		// If we have a designated version - use it
-		if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
-			tagName = params.DESIGNATED_VERSION
-		}
-		// Else fallback to the current date (can't use date-time (java.time.LocalDateTime().now()) since it contains ":" which isn't allowed in tag name)
-		else {
-			def currentDate = java.time.LocalDate.now()
-			echo "No designated version observed, defaulting to current date: [${currentDate}]"
-			tagName = currentDate
-		}
-
-		// If we have a designated message - use it
-		if (params.DESIGNATED_VERSION_MESSAGE != null && params.DESIGNATED_VERSION_MESSAGE.trim().isEmpty() == false) {
-			tagMessage = params.DESIGNATED_VERSION_MESSAGE
-		}
-		// Else fallback to a pre-defined message
-		else {
-			def fallbackMessage = "Markup tag for ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file"
-			echo "No designated version message observed, defaulting to: [${fallbackMessage}]"
-			tagMessage = fallbackMessage
-		}
+		def (tagName,tagMessage) = manifestTagNameAndMessage()
 
 		// Create the annotated tag (replace if needed)
 		grgit.tag.add(name: tagName, message: tagMessage, force: true)
@@ -106,4 +103,36 @@ def push2RemoteWithGrgit() {
 		// Push everything to the remote repo
 		grgit.push(tags: true, remote: env.GIT_URL, force: true)
 	}
+}
+
+//
+// Resolves the applicable tag name and version and return them (name and message)
+//
+def manifestTagNameAndMessage() {
+	def tagName,tagMessage
+
+	// If we have a designated version - use it
+	if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
+		tagName = params.DESIGNATED_VERSION
+	}
+	// Else fallback to the current date (can't use date-time (java.time.LocalDateTime().now()) since it contains ":" which isn't allowed in tag name)
+	else {
+		def currentDate = java.time.LocalDate.now()
+		echo "No designated version observed, defaulting to current date: [${currentDate}]"
+		tagName = currentDate
+	}
+
+	// If we have a designated message - use it
+	if (params.DESIGNATED_VERSION_MESSAGE != null && params.DESIGNATED_VERSION_MESSAGE.trim().isEmpty() == false) {
+		tagMessage = params.DESIGNATED_VERSION_MESSAGE
+	}
+	// Else fallback to a pre-defined message
+	else {
+		def fallbackMessage = "Markup tag for ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file"
+		echo "No designated version message observed, defaulting to: [${fallbackMessage}]"
+		tagMessage = fallbackMessage
+	}
+
+	// Return the results
+	return [tagName,tagMessage]
 }
