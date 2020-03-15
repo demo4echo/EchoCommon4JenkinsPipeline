@@ -28,7 +28,12 @@ def call(String releaseVersionsDataAsYamlStr) {
 
 	// Adjust current directory
 	dir (env.WORKSPACE) {
+		userDir = System.properties['user.dir']
 		echo "Current User dir: [${userDir}]"
+
+		System.properties['user.dir'] = env.WORKSPACE
+		userDir = System.properties['user.dir']
+		echo "Updated User dir: [${userDir}]"
 
 		//
 		// Work with the VCS (git) via the grgit library
