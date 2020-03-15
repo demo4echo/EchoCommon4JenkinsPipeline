@@ -35,6 +35,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 		userDir = System.properties['user.dir']
 		echo "Updated User dir: [${userDir}]"
 
+		sh 'pwd'
+
 		//
 		// Work with the VCS (git) via the grgit library
 		//
