@@ -26,15 +26,15 @@ def call(String releaseVersionsDataAsYamlStr) {
 // Push the generated artifacts to the remote repository using git
 //
 def push2RemoteWithGit() {
-	def GIT_ASKPASS_HELPER_FILE_NAME='git-askpass.sh'
+	def GIT_ASKPASS_HELPER_FILE_NAME='./git-askpass.sh'
 
 	// Do some setup
-	env.GIT_AUTHOR_NAME="$USER"
-	env.GIT_AUTHOR_EMAIL="admin@efrat.com"
-	env.GIT_ASKPASS="${GIT_ASKPASS_HELPER_FILE_NAME}"
+	env.GIT_AUTHOR_NAME = env.USER
+	env.GIT_AUTHOR_EMAIL = "admin@efrat.com"
+	env.GIT_ASKPASS = "${GIT_ASKPASS_HELPER_FILE_NAME}"
 	
 	// Write the token helper temp file (will be deleted) and make it executable
-	writefile file: GIT_ASKPASS_HELPER_FILE_NAME text: "echo ${env.GRGIT_USER}"
+	writefile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
 	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
 
 	// Stage changes
@@ -45,7 +45,13 @@ def push2RemoteWithGit() {
 
 	// Create a suitable tag to mark this update
 	def (tagName,tagMessage) = manifestTagNameAndMessage()
+	sh "git tag -a ${tagName} -m '${tagMessage}'"
 
+	// Push to remote repo
+	sh "git push --tags"
+
+	// Delete the temp token helper
+	sh "rm -rf ${GIT_ASKPASS_HELPER_FILE_NAME}"
 }
 
 //
