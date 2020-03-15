@@ -27,9 +27,13 @@ def call(String releaseVersionsDataAsYamlStr) {
 //
 def push2RemoteWithGit() {
 	def GIT_ASKPASS_HELPER_FILE_NAME='./git-askpass.sh'
+	def (buildUserId,buildUserName) = getBuildUserInfo()
+
+	echo "Build user name is: [${buildUserName}]"
+	echo "Build user id is: [${buildUserId}]"
 
 	// Do some setup
-	sh 'export GIT_AUTHOR_NAME=$USER'
+	sh "export GIT_AUTHOR_NAME=${buildUserName}"
 	sh 'export GIT_AUTHOR_EMAIL=admin@efrat.com'
 	sh "export GIT_ASKPASS=${GIT_ASKPASS_HELPER_FILE_NAME}"
 	
@@ -143,4 +147,9 @@ def manifestTagNameAndMessage() {
 
 	// Return the results
 	return [tagName,tagMessage]
+}
+
+@NonCPS
+def getBuildUserInfo() {
+	return [currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserId(),currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()]
 }
