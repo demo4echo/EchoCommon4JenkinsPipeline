@@ -13,6 +13,8 @@ import org.ajoberstar.grgit.Grgit
 //		which will be used for authentication by the grgit libraray (used below) during the push operation!
 //
 def call(String releaseVersionsDataAsYamlStr) {
+	tiran()
+
 	// Print some info
 	def pwdDir = pwd()
 	def userDir = System.properties['user.dir']
@@ -88,4 +90,8 @@ def call(String releaseVersionsDataAsYamlStr) {
 		// Push everything to the remote repo
 		grgit.push(tags: true, remote: env.GIT_URL, force: true)
 	}
+}
+
+def tiran() {
+	echo 'tiran'
 }
