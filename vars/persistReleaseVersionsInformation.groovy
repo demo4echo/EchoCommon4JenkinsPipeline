@@ -24,57 +24,62 @@ def call(String releaseVersionsDataAsYamlStr) {
 	def userDir = System.properties['user.dir']
 	echo "Workspace dir is: [${env.WORKSPACE}]"
 	echo "pwd() dir is: [${pwdDir}]"
-	echo "User dir: [${userDir}]"
+	echo "Original User dir: [${userDir}]"
 
-	//
-	// Work with the VCS (git) via the grgit library
-	//
+	// Adjust current directory
+	dir (env.WORKSPACE) {
+		echo "Current User dir: [${userDir}]"
 
-	// Init repo
-//	def grgit = Grgit.open(currentDir: env.WORKSPACE)
-	def grgit = Grgit.open(dir: env.WORKSPACE)
+		//
+		// Work with the VCS (git) via the grgit library
+		//
 
-	// Stage changes
-//	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
-	grgit.add(patterns: ['.'])
+		// Init repo
+	//	def grgit = Grgit.open(currentDir: env.WORKSPACE)
+	//	def grgit = Grgit.open(dir: env.WORKSPACE)
 
-	// Commit changes
-	grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+		// Stage changes
+	//	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
+		grgit.add(patterns: ['.'])
 
-	//
-	// Create a suitable tag to mark this update
-	//
-	def tagName,tagMessage
+		// Commit changes
+		grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
 
-	// If we have a designated version - use it
-	if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
-		tagName = params.DESIGNATED_VERSION
+		//
+		// Create a suitable tag to mark this update
+		//
+		def tagName,tagMessage
+
+		// If we have a designated version - use it
+		if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
+			tagName = params.DESIGNATED_VERSION
+		}
+		// Else fallback to the current date (can't use date-time (java.time.LocalDateTime().now()) since it contains ":" which isn't allowed in tag name)
+		else {
+			def currentDate = java.time.LocalDate.now()
+			echo "No designated version observed, defaulting to current date: [${currentDate}]"
+			tagName = currentDate
+		}
+
+		// If we have a designated message - use it
+		if (params.DESIGNATED_VERSION_MESSAGE != null && params.DESIGNATED_VERSION_MESSAGE.trim().isEmpty() == false) {
+			tagMessage = params.DESIGNATED_VERSION_MESSAGE
+		}
+		// Else fallback to a pre-defined message
+		else {
+			def fallbackMessage = "Markup tag for ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file"
+			echo "No designated version message observed, defaulting to: [${fallbackMessage}]"
+			tagMessage = fallbackMessage
+		}
+
+		// Create the annotated tag (replace if needed)
+		grgit.tag.add(name: tagName, message: tagMessage, force: true)
+
+		// Setup authentication
+		echo "The GRGIT token is: [${env.GRGIT_USER}]"
+		System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
+
+		// Push everything to the remote repo
+		grgit.push(tags: true, remote: env.GIT_URL, force: true)
 	}
-	// Else fallback to the current date (can't use date-time (java.time.LocalDateTime().now()) since it contains ":" which isn't allowed in tag name)
-	else {
-		def currentDate = java.time.LocalDate.now()
-		echo "No designated version observed, defaulting to current date: [${currentDate}]"
-		tagName = currentDate
-	}
-
-	// If we have a designated message - use it
-	if (params.DESIGNATED_VERSION_MESSAGE != null && params.DESIGNATED_VERSION_MESSAGE.trim().isEmpty() == false) {
-		tagMessage = params.DESIGNATED_VERSION_MESSAGE
-	}
-	// Else fallback to a pre-defined message
-	else {
-		def fallbackMessage = "Markup tag for ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file"
-		echo "No designated version message observed, defaulting to: [${fallbackMessage}]"
-		tagMessage = fallbackMessage
-	}
-
-	// Create the annotated tag (replace if needed)
-	grgit.tag.add(name: tagName, message: tagMessage, force: true)
-
-	// Setup authentication
-	echo "The GRGIT token is: [${env.GRGIT_USER}]"
-	System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
-
-	// Push everything to the remote repo
-	grgit.push(tags: true, remote: env.GIT_URL, force: true)
 }
