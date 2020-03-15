@@ -33,6 +33,8 @@ def push2RemoteWithGit() {
 	env.GIT_AUTHOR_EMAIL = "admin@efrat.com"
 	env.GIT_ASKPASS = "${GIT_ASKPASS_HELPER_FILE_NAME}"
 	
+	sh 'echo author name is: $GIT_AUTHOR_NAME'
+
 	// Write the token helper temp file (will be deleted) and make it executable
 	writeFile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
 	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
