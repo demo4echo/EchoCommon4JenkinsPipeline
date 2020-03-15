@@ -34,7 +34,7 @@ def push2RemoteWithGit() {
 	env.GIT_ASKPASS = "${GIT_ASKPASS_HELPER_FILE_NAME}"
 	
 	// Write the token helper temp file (will be deleted) and make it executable
-	writefile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
+	writeFile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
 	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
 
 	// Stage changes
