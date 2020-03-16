@@ -40,14 +40,15 @@ def push2RemoteWithGit() {
 	sh "git add ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}"
 
 	// Commit changes
-	sh "export GIT_AUTHOR_NAME='${buildUserName}'; export GIT_AUTHOR_EMAIL='${buildUserId}@efrat.com'; printenv; git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
+//	sh "GIT_AUTHOR_NAME='${buildUserName}'; GIT_AUTHOR_EMAIL='${buildUserId}@efrat.com'; git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
+	sh "git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}' --author=admin"
 
 	// Create a suitable tag to mark this update
 	def (tagName,tagMessage) = manifestTagNameAndMessage()
 	sh "git tag -a ${tagName} -m '${tagMessage}'"
 
 	// Push to remote repo
-	sh "export GIT_ASKPASS='${GIT_ASKPASS_HELPER_FILE_NAME}'; git push --tags"
+	sh "GIT_ASKPASS='${GIT_ASKPASS_HELPER_FILE_NAME}'; git push --tags"
 
 	// Delete the temp token helper
 	sh "rm -rf ${GIT_ASKPASS_HELPER_FILE_NAME}"
