@@ -43,10 +43,6 @@ def push2RemoteWithGit() {
 	// Verify
 //	sh 'printenv'
 
-	// Write the token helper temp file (will be deleted) and make it executable
-	writeFile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
-	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
-
 	// Stage changes
 	sh "git add ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}"
 
@@ -56,6 +52,10 @@ def push2RemoteWithGit() {
 	// Create a suitable tag to mark this update
 	def (tagName,tagMessage) = manifestTagNameAndMessage()
 	sh "git tag -a ${tagName} -m '${tagMessage}' -f"
+
+	// Write the token helper temp file (will be deleted) and make it executable
+	writeFile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
+	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
 
 	// Push to remote repo
 	sh "git push --all"
