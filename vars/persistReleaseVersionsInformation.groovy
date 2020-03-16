@@ -37,6 +37,8 @@ def push2RemoteWithGit() {
 	env.GIT_AUTHOR_EMAIL = "${buildUserId}@efrat.com"
 	env.GIT_ASKPASS = GIT_ASKPASS_HELPER_FILE_NAME
 	env.EMAIL = "admin@efrat.com"
+	env.GIT_COMMITTER_NAME = "admin"
+	env.GIT_COMMITTER_EMAIL = "admin@efrat.com"
 
 	// Verify
 	sh 'printenv'
