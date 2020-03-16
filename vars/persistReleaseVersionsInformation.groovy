@@ -58,8 +58,8 @@ def push2RemoteWithGit() {
 	sh "chmod +x ${GIT_ASKPASS_HELPER_FILE_NAME}"
 
 	// Push to remote repo (including tags)
-//	sh "git push && git push --tags --force"
-	sh "git push --follow-tags --force --set-upstream origin ${env.BRANCH_NAME}"
+	sh "git push --set-upstream origin ${env.BRANCH_NAME} && git push --tags --force"
+//	sh "git push --follow-tags --force --set-upstream origin ${env.BRANCH_NAME}"
 
 	// Delete the temp token helper
 	sh "rm -rf ${GIT_ASKPASS_HELPER_FILE_NAME}"
