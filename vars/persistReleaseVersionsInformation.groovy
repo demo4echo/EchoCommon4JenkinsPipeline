@@ -36,12 +36,12 @@ def push2RemoteWithGit() {
 	env.GIT_AUTHOR_NAME = buildUserName
 	env.GIT_AUTHOR_EMAIL = "${buildUserId}@efrat.com"
 	env.GIT_ASKPASS = GIT_ASKPASS_HELPER_FILE_NAME
-	env.EMAIL = "admin@efrat.com"
-	env.GIT_COMMITTER_NAME = "admin"
-	env.GIT_COMMITTER_EMAIL = "admin@efrat.com"
+	env.EMAIL = "${buildUserId}@efrat.com"
+	env.GIT_COMMITTER_NAME = buildUserId
+	env.GIT_COMMITTER_EMAIL = "${buildUserId}@efrat.com"
 
 	// Verify
-	sh 'printenv'
+//	sh 'printenv'
 
 	// Write the token helper temp file (will be deleted) and make it executable
 	writeFile file: GIT_ASKPASS_HELPER_FILE_NAME, text: "echo ${env.GRGIT_USER}"
@@ -51,7 +51,6 @@ def push2RemoteWithGit() {
 	sh "git add ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}"
 
 	// Commit changes
-//	sh "GIT_AUTHOR_NAME='${buildUserName}'; GIT_AUTHOR_EMAIL='${buildUserId}@efrat.com'; git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
 	sh "git commit -m 'Adding file ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}'"
 
 	// Create a suitable tag to mark this update
@@ -59,7 +58,7 @@ def push2RemoteWithGit() {
 	sh "git tag -a ${tagName} -m '${tagMessage}'"
 
 	// Push to remote repo
-//	sh "GIT_ASKPASS='${GIT_ASKPASS_HELPER_FILE_NAME}'; git push --tags"
+	sh "git push"
 	sh "git push --tags"
 
 	// Delete the temp token helper
