@@ -55,11 +55,10 @@ def push2RemoteWithGit() {
 
 	// Create a suitable tag to mark this update
 	def (tagName,tagMessage) = manifestTagNameAndMessage()
-	sh "git tag -a ${tagName} -m '${tagMessage}'"
+	sh "git tag -a ${tagName} -m '${tagMessage}' -f"
 
 	// Push to remote repo
-	sh "git push"
-	sh "git push --tags"
+	sh "git push --all"
 
 	// Delete the temp token helper
 	sh "rm -rf ${GIT_ASKPASS_HELPER_FILE_NAME}"
