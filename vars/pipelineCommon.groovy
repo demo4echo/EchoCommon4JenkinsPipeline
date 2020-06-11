@@ -57,7 +57,7 @@ CONST_RELEASE_VERSIONS_FILE_NAME='releaseVersions.yaml'
 //
 // Builds a proper Jenkins service pod agent label (name), taking into account the job name
 //
-def constructJenkinsSlavePodAgentLabel() {
+def String constructJenkinsSlavePodAgentLabel() {
 	node {
 		// Job name might contain "/" followed by the branch name, so we need to replace "/" with something acceptable (e.g. "_")
 		def originalJobName = env.JOB_NAME
@@ -70,7 +70,7 @@ def constructJenkinsSlavePodAgentLabel() {
 //
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the branch name
 //
-def resolveCloudNameByBranchName() {
+def String resolveCloudNameByBranchName() {
 	node {
 //	node(env.NODE_NAME) {
 //	node('master') {
@@ -110,7 +110,7 @@ def resolveCloudNameByBranchName() {
 // Determine the applicable k8s cloud (towards Jenkins' configuration of the K8S plugin) by the job name
 // It was serving jobs with the designated branch name as part of their name (e.g. EchoFunctionalCertification-production and EchoFunctionalCertification-staging)
 //
-def resolveCloudNameByJobName() {
+def String resolveCloudNameByJobName() {
 	node {
 		println "Within resolveCloudNameByJobName() => Jenkins node name is: [${env.NODE_NAME}]"
 
@@ -135,7 +135,7 @@ def resolveCloudNameByJobName() {
 //
 // Determine the namespace the micro service is running in (currently the Jenkins Slave Pod is running in the default namespace)
 //
-def resolveNamespaceByBranchName() {
+def String resolveNamespaceByBranchName() {
 	node {
 		println "Within resolveNamespaceByBranchName() => Jenkins node name is: [${env.NODE_NAME}]"
 
@@ -192,9 +192,6 @@ def assimilateEnvironmentVariables() {
 		// Show resolved environment variables values
 		println "Applicable Reckon Scope value is: [${env.JENKINS_SLAVE_K8S_RECKON_SCOPE}]"
 		println "Applicable Reckon Stage value is: [${env.JENKINS_SLAVE_K8S_RECKON_STAGE}]"
-
-		// We don't actually need to return something
-		return null
 //	}
 }
 
@@ -241,7 +238,7 @@ def assimilateParameters(String commonSubModuleFolderName) {
 //
 // Locate sub module folder name
 //
-def locateCommonSubModuleFolderName() {
+def String locateCommonSubModuleFolderName() {
 	println "Within locateCommonSubModuleFolderName() => Jenkins node name is: [${env.NODE_NAME}]"
 
 	def markupFiles = findFiles(glob: CONST_COMMON_SUB_MODULE_PICKUP_MARKER_FILE_PATTERN)
@@ -268,7 +265,7 @@ def locateCommonSubModuleFolderName() {
 //
 // Load branch specific configration file and return it as a map
 //
-def loadBranchSpecificConfiguration(String commonSubModuleName) {
+def String loadBranchSpecificConfiguration(String commonSubModuleName) {
 	println "Within loadBranchSpecificConfiguration() => Jenkins node name is: [${env.NODE_NAME}]"
 
 	def configFileName = commonSubModuleName ? "${commonSubModuleName}/${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}" : "${CONST_BRANCH_SPECIFIC_CONFIGURATION_FILE_NAME}"
@@ -294,7 +291,7 @@ def loadCommonGradleConfiguration(String commonSubModuleName) {
 // The regexp pattern below searches for strings contained within '"' (including) targeting the upstream job description,
 // for example: 'Started by upstream project "echobe/master" build number 209'
 //
-def obtainBranchNameFromUpstreamJob() {
+def String obtainBranchNameFromUpstreamJob() {
 	println "Within obtainBranchNameFromUpstreamJob() => Jenkins node name is: [${env.NODE_NAME}]"
 
 	def upstreamCause = currentBuild.rawBuild.getCause(hudson.model.Cause$UpstreamCause)
